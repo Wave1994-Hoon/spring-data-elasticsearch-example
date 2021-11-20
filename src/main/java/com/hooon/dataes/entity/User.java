@@ -6,8 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Setter @Getter @Builder
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 public class User {
 
@@ -18,6 +18,11 @@ public class User {
 
   @Column(name = "name", nullable = false, length = 10)
   private String name;
+
+  @Builder
+  public User(String name) {
+    this.name = name;
+  }
 
   public UserDocument convertDocument() {
     return UserDocument.builder()
