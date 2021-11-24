@@ -1,11 +1,13 @@
 package com.hooon.dataes.service;
 
+import com.hooon.dataes.config.ModelMapperConfig;
 import com.hooon.dataes.document.UserDocument;
 import com.hooon.dataes.entity.User;
 import com.hooon.dataes.repository.elasticsearch.UserDocumentRepository;
 import com.hooon.dataes.repository.jpa.UserRepository;
 import com.hooon.dataes.util.IndexUtil;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class UserIndexingService {
 
   private final UserRepository userRepository;
   private final UserDocumentRepository userDocumentRepository;
+  private final ModelMapper modelMapper;
 
   private static final String INDEX_PREFIX_NAME ="user";
   private static final String ALIAS_NAME = "user";
@@ -33,8 +36,9 @@ public class UserIndexingService {
     List<User> users = userRepository.findAll();
 
     List<UserDocument> userDocuments = users.stream()
-        .map(User::convertDocument)
+        .map(user -> modelMapper.map(user, UserDocument.class))
         .collect(Collectors.toList());
+
 
     userDocumentRepository.saveAll(userDocuments, indexNameWrapper);
 

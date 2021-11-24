@@ -1,12 +1,14 @@
 package com.hooon.dataes.document;
 
-import lombok.Builder;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.*;
+
 import javax.persistence.Id;
 
-@Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Document(indexName = "user", createIndex = false)
 public class UserDocument {
 

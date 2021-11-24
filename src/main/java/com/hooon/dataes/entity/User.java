@@ -24,10 +24,4 @@ public class User {
     this.name = name;
   }
 
-  public UserDocument convertDocument() {
-    return UserDocument.builder()
-        .name(name)
-        .build();
-  }
-
 }
